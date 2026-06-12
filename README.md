@@ -326,3 +326,56 @@ git remote add origin <repo-url>
 git branch -M main
 git push -u origin main
 ```
+## Step 15: Destroy Infrastructure
+
+When the project is no longer needed, destroy all resources created by Terraform.
+
+### Review What Will Be Deleted
+
+```bash
+terraform plan -destroy
+```
+
+This shows all resources that Terraform will remove.
+
+### Destroy Resources
+
+```bash
+terraform destroy
+```
+
+Approve when prompted:
+
+```text
+yes
+```
+
+Terraform will delete all resources managed in the state file, such as:
+
+* EC2 Instance
+* Security Group
+* AWS Key Pair (if created through Terraform)
+* Any other Terraform-managed AWS resources
+
+### Verify Deletion
+
+AWS Console → EC2
+
+Check:
+
+* Instances → Instance no longer exists
+* Security Groups → Terraform-created SG removed
+* Key Pairs → Terraform-created key pair removed
+
+### Important Notes
+
+* Only resources created and managed by Terraform are deleted.
+* If a key pair was created manually from the AWS Console and only referenced in Terraform using `key_name`, Terraform will NOT delete it.
+* If the key pair was created using Terraform (`aws_key_pair` resource), Terraform will delete it automatically during `terraform destroy`.
+
+### Useful Commands
+
+```bash
+terraform plan -destroy
+terraform destroy
+```
