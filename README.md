@@ -379,3 +379,7 @@ Check:
 terraform plan -destroy
 terraform destroy
 ```
+[In case terraform destroy fails, try below commands and then do terraform init followed by terrafoem plan -destroy:
+
+rm -rf .terraform
+rm .terraform.lock.hcl]
